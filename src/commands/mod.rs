@@ -5,6 +5,8 @@ use std::path::PathBuf;
 
 mod init;
 use init::init_command;
+mod add;
+use add::add_command;
 
 // 当前目录、环境变量、命令行参数
 pub struct CommandContext<'a, I, O, E>
@@ -28,6 +30,16 @@ pub fn get_app() -> App<'static, 'static> {
             .about("Create an empty Git repository or reinitialize an existing one")
             .arg(Arg::with_name("args").multiple(true)),
         )
+        .subcommand(
+            SubCommand::with_name("add")
+                .about("Add file contents to the index")
+                .arg(Arg::with_name("args").multiple(true)),
+        )
+        .subcommand(
+            SubCommand::with_name("commit")
+                .about("Record changes to the repository")
+                .arg(Arg::with_name("args").multiple(true)),
+        )
 }
 
 pub fn execute<'a, I, O, E>(
@@ -43,6 +55,10 @@ where
         ("init", sub_matches) => {
             ctx.options = sub_matches.cloned();
             init_command(ctx)
+        }
+        ("add", sub_matches) => {
+            ctx.options = sub_matches.cloned();
+            add_command(ctx)
         }
         _ => Ok(()),
     }

@@ -19,9 +19,9 @@ pub fn encode_hex(bytes: &[u8]) -> String {
     s
 }
 
-// pub fn generate_temp_name() -> String {
-//     thread_rng().sample_iter(&Alphanumeric).take(6).collect()
-// }
+pub fn generate_temp_name() -> String {
+    thread_rng().sample_iter(&Alphanumeric).take(6).map(char::from).collect()
+}
 
 pub fn relative_path_from(path: &Path, from: &Path) -> String {
     path.strip_prefix(from)

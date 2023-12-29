@@ -4,7 +4,11 @@ use std::env;
 use std::io::{self, Write};
 use std::collections::HashMap;
 
+mod database;
+mod repository;
 mod refs;
+mod index;
+mod workspace;
 mod lockfile;
 mod util;
 mod commands;
