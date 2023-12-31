@@ -7,6 +7,8 @@ mod init;
 use init::init_command;
 mod add;
 use add::add_command;
+mod commit;
+use commit::commit_command;
 
 // 当前目录、环境变量、命令行参数
 pub struct CommandContext<'a, I, O, E>
@@ -60,10 +62,10 @@ where
             ctx.options = sub_matches.cloned();
             add_command(ctx)
         }
-        // ("commit", sub_matches) => {
-        //     ctx.options = sub_matches.cloned();
-        //     commit_command(ctx)
-        // }
+        ("commit", sub_matches) => {
+            ctx.options = sub_matches.cloned();
+            commit_command(ctx)
+        }
         _ => Ok(()),
     }
 }

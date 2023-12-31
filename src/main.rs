@@ -14,10 +14,16 @@ mod util;
 mod commands;
 use commands::{execute, get_app, CommandContext};
 
+
+
 fn main() {
+    let mut oenv = HashMap::new();
+    oenv.insert("GIT_AUTHOR_NAME".to_string(), "jkji".to_string());
+    oenv.insert("GIT_AUTHOR_EMAIL".to_string(), "jkji@exp.com".to_string());
+
     let ctx = CommandContext {
         dir: env::current_dir().unwrap(),
-        env: &env::vars().collect::<HashMap<String, String>>(),
+        env: &oenv,
         options: None,
         stdin: io::stdin(),
         stdout: io::stdout(),

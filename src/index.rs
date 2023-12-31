@@ -16,7 +16,7 @@ const MAX_PATH_SIZE: u16 = 0xfff;
 const CHECKSUM_SIZE: u64 = 20;
 
 const HEADER_SIZE: usize = 12; // bytes
-const MIN_ENTRY_SIZE: usize = 64;
+const MIN_ENTRY_SIZE: usize = 36;
 
 #[derive(Debug, Clone)]
 pub struct Entry {
@@ -54,15 +54,15 @@ impl Entry {
 
     fn parse(bytes: &[u8]) -> Result<Entry, std::io::Error> {
         let mut metadata_ints: Vec<u32> = vec![];
-        for i in 0..10 {
+        for i in 0..3 {
             metadata_ints.push(u32::from_be_bytes(
                 bytes[i * 4..i * 4 + 4].try_into().unwrap(),
             ));
         }
 
-        let oid = encode_hex(&bytes[40..60]);
-        let flags = u16::from_be_bytes(bytes[60..62].try_into().unwrap());
-        let path_bytes = bytes[62..].split(|b| b == &0u8).next().unwrap();
+        let oid = encode_hex(&bytes[12..32]);
+        let flags = u16::from_be_bytes(bytes[32..34].try_into().unwrap());
+        let path_bytes = bytes[34..].split(|b| b == &0u8).next().unwrap();
         let path = str::from_utf8(path_bytes).unwrap().to_string();
 
         Ok(Entry {

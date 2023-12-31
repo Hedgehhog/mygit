@@ -14,10 +14,55 @@ use object::Object;
 pub mod commit;
 use commit::Commit;
 use crate::util::*;
+pub mod tree;
+use tree::{Tree, TREE_MODE};
+use crate::index;
 
 pub enum ParsedObject {
     Commit(Commit),
-    Blob(Blob)
+    Blob(Blob),
+    Tree(Tree),
+}
+
+#[derive(Clone, Eq, PartialEq, Ord, PartialOrd, Debug)]
+pub struct Entry {
+    name: String,
+    oid: String,
+}
+
+impl Entry {
+    pub fn new(name: &str, oid: &str, mode: u32) -> Entry {
+        Entry {
+            name: name.to_string(),
+            oid: oid.to_string(),
+        }
+    }
+
+    // if user is allowed to executable, set mode to Executable,
+    // else Regular
+    // fn is_executable(&self) -> bool {
+    //     (self.mode >> 6) & 0b1 == 1
+    // }
+
+    // fn mode(&self) -> u32 {
+    //     if self.mode == TREE_MODE {
+    //         return TREE_MODE;
+    //     }
+    //     if self.is_executable() {
+    //         return 0o100755;
+    //     } else {
+    //         return 0o100644;
+    //     }
+    // }
+}
+
+impl From<&index::Entry> for Entry {
+    fn from(entry: &index::Entry) -> Entry {
+        Entry {
+            name: entry.path.clone(),
+            oid: entry.oid.clone(),
+        }
+    }
 }
 
 pub struct Database {
