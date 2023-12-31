@@ -10,9 +10,9 @@
             "request": "launch",
 							// 需要配置你执行文件的路径
             "program": "${workspaceRoot}/target/debug/mygit.exe",
-            "args": [],
+            "args": ["add", "."],
             "stopAtEntry": false,
-            "cwd": "${workspaceRoot}",
+            "cwd": "${workspaceRoot}/mygit-test",
             "environment": [],
             "console": "integratedTerminal",
         }

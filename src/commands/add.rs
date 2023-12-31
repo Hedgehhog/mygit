@@ -10,9 +10,9 @@ static INDEX_LOAD_OR_CREATE_FAILED: &'static str = "fatal: could not create/load
 fn locked_index_message(e: &std::io::Error) -> String {
     format!("fatal: {}
 
-Another jit process seems to be running in this repository. Please make sure all processes are terminated then try again.
+Another mygit process seems to be running in this repository. Please make sure all processes are terminated then try again.
 
-If it still fails, a jit process may have crashed in this repository earlier: remove the .git/index.lock file manually to continue.\n",
+If it still fails, a mygit process may have crashed in this repository earlier: remove the .git/index.lock file manually to continue.\n",
             e)
 }
 
@@ -77,16 +77,7 @@ where
 
     let mut paths = vec![];
     for arg in args {
-        let path = match working_dir.join(arg).canonicalize() {
-            Ok(canon_path) => canon_path,
-            Err(_) => {
-                repo.index.release_lock().unwrap();
-                return Err(format!(
-                    "fatal: pathspec '{:}' did not match any files\n",
-                    arg
-                ));
-            }
-        };
+        let path = working_dir.join(arg);
 
         for pathname in repo.workspace.list_files(&path).unwrap() {
             paths.push(pathname);

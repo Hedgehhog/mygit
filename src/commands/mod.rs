@@ -60,6 +60,10 @@ where
             ctx.options = sub_matches.cloned();
             add_command(ctx)
         }
+        // ("commit", sub_matches) => {
+        //     ctx.options = sub_matches.cloned();
+        //     commit_command(ctx)
+        // }
         _ => Ok(()),
     }
 }
