@@ -30,3 +30,7 @@ $ mygit checkout
 James Coglan's book <Building Git>
 
 https://github.com/samrat/rug
+
+#### github
+https://github.com/jk45698/mygit
+
